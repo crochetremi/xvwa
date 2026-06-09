@@ -7,26 +7,24 @@ services:
   web:
     build: ./
     container_name: td_web
-    ports:
-      - "8081:80"            # (!) backend exposé directement, contourne le proxy
     volumes:
       - ./xvwa:/var/www/html
     depends_on:
       - db
     # (!) tourne en root, aucune option de sécurité (cap_drop, read_only, no-new-privileges)
-
+    networks:
+      - frontend
   db:
     image: mysql:8.0
     container_name: td_db
-    ports:
-      - "3306:3306"          # (!) base de données exposée vers l'hôte
     environment:
       MYSQL_ROOT_PASSWORD: root          # (!) secret en clair
       MYSQL_DATABASE: xvwa
       MYSQL_USER: xvwa
       MYSQL_PASSWORD: xvwa123             # (!) secret en clair
     # (!) aucun secret Docker utilisé
-
+    networks:
+      - backend
   nginx:
     image: nginx:stable-alpine
     container_name: td_proxy
@@ -38,5 +36,12 @@ services:
       - ./nginx/certs:/etc/nginx/certs:ro
     depends_on:
       - web
+    networks:
+      - frontend
 
-# (!) tous les services partagent le réseau par défaut : aucune segmentation
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+    internal: true

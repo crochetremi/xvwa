@@ -14,6 +14,7 @@ services:
     # (!) tourne en root, aucune option de sécurité (cap_drop, read_only, no-new-privileges)
     networks:
       - frontend
+      - backend
   db:
     image: mysql:8.0
     container_name: td_db

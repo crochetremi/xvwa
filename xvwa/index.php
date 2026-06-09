@@ -1,69 +1,17 @@
-<?php session_start(); ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>XVWA - Xtreme Vulnerable Web Application </title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/shop-item.css" rel="stylesheet">
-    
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <?php include("header.php") ?>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Page Content -->
-    <div class="container">
-
-        <div class="row">
-
-            <div class="col-md-3">
-                <?php include("sidepanel.php") ?>
-             </div>
-
-            <div class="col-md-9">
-
-               <?php include("home.html") ?>
-
-            </div>
-
-        </div>
-
-    </div>
-    <!-- /.container -->
-
-    <?php include("footer.html") ?>
-    <!-- /.container -->
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-<?php include_once('about.html'); ?>
-</body>
-
-</html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Application vulnerable - TD securisation</title>
+<style>body{font-family:sans-serif;max-width:680px;margin:40px auto;padding:0 16px}
+h1{color:#1f4e79}.warn{background:#fde7e7;border:1px solid #e0a;padding:10px;border-radius:6px}
+a{display:inline-block;margin:4px 0}</style></head><body>
+<h1>Application volontairement vulnerable</h1>
+<p class="warn"><strong>Usage strictement local et pedagogique.</strong>
+Ne jamais exposer cet environnement sur un reseau public.</p>
+<p>Modules disponibles :</p>
+<ul>
+<li><a href="vulnerabilities/sqli/">Injection SQL</a></li>
+<li><a href="vulnerabilities/reflected_xss/">XSS reflechie</a></li>
+<li><a href="vulnerabilities/stored_xss/">XSS stockee</a></li>
+<li><a href="vulnerabilities/file_upload/">Upload de fichiers</a></li>
+<li><a href="login.php">Connexion (test du rate-limiting)</a></li>
+</ul>
+</body></html>

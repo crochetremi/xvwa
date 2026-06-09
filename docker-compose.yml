@@ -1,42 +1,42 @@
-version: '3.8'
-
+# =============================================================
+#  ÉTAT DE DÉPART - VOLONTAIREMENT NON SÉCURISÉ
+#  Objectif du TD : Arrêter de se faire pourrir :)
+# =============================================================
 services:
-  nginx:
-    image: nginx:latest
-    container_name: proxy_nginx
+
+  web:
+    build: ./
+    container_name: td_web
     ports:
-      - "80:80"
-      - "8080:8080"
+      - "8081:80"            # (!) backend exposé directement, contourne le proxy
+    volumes:
+      - ./xvwa:/var/www/html
+    depends_on:
+      - db
+    # (!) tourne en root, aucune option de sécurité (cap_drop, read_only, no-new-privileges)
+
+  db:
+    image: mysql:8.0
+    container_name: td_db
+    ports:
+      - "3306:3306"          # (!) base de données exposée vers l'hôte
+    environment:
+      MYSQL_ROOT_PASSWORD: root          # (!) secret en clair
+      MYSQL_DATABASE: xvwa
+      MYSQL_USER: xvwa
+      MYSQL_PASSWORD: xvwa123             # (!) secret en clair
+    # (!) aucun secret Docker utilisé
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: td_proxy
+    ports:
+      - "8080:80"
+      - "8443:443"           # mappé pour plus tard (TLS à activer en Faille 2)
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./nginx/certs:/etc/nginx/certs:ro
-    networks:
-      - lab_network
     depends_on:
-      - xvwa
+      - web
 
-  xvwa:
-    build: 
-      context: .
-    container_name: app_xvwa
-    volumes:
-      - ./xvwa:/var/www/html
-    networks:
-      - lab_network
-    depends_on:
-      - db
-
-  db:
-    image: mysql:5.7
-    container_name: db_mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: xvwa
-      MYSQL_USER: xvwa_user
-      MYSQL_PASSWORD: xvwa_password
-    networks:
-      - lab_network
-
-networks:
-  lab_network:
-    driver: bridge
+# (!) tous les services partagent le réseau par défaut : aucune segmentation
